@@ -7,6 +7,8 @@
 // @match        https://app.hisol-work.net/*
 // @grant        none
 // @license MIT
+// @homepage    https://github.com/manjuu08/checkin
+// @supportURL  https://github.com/manjuu08/checkin/issues
 // ==/UserScript==
 
 (function() {
