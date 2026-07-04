@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          LMS 正誤/選択問題一括入力
 // @namespace     http://tampermonkey.net/
-// @version       1.0
+// @version       1.1
 // @description   Tampermonkeyメニューからポップアップを開き、「正/誤」や「A/B/C/D」といった解答リストを一括貼り付けすることで、LMSの正誤問題・選択問題へ自動的にチェックを入れます。選択した解答の全解除や、レビューページからの解答抽出・コピー機能も備えています。
 // @match         https://lms2017.teikyo-u.ac.jp/*
 // @grant         GM_registerMenuCommand
@@ -220,7 +220,17 @@
       const lines = textarea.value
         .split('\n')
         .map((l) => l.trim())
-        .filter((l) => l.length > 0);
+        .filter((l) => l.length > 0)
+        .map((l) => {
+          const m = l.match(/(?:[：:]|^\d+\s*[.．])\s*(正|誤|误|A|B|C|D|a|b|c|d)\s*$/);
+          return m ? m[1] : l;
+        })
+        .filter((l) => /^(正|誤|误|A|B|C|D|a|b|c|d)$/.test(l))
+        .map((l) => l === '误' ? '誤' : l.toUpperCase());
+      if (lines.length === 0) {
+        webAlert('有効な解答（正/誤 または A/B/C/D）が見つかりませんでした。');
+        return;
+      }
       await fillAnswers(lines);
       overlay.remove();
     };
@@ -393,7 +403,7 @@
     }
   }
 
-  // ---------- ページから正解テキストを抽出 ----------
+  // ---------- ページから問題テキストを抽出 ----------
 
   function extractAnswers() {
     const container = document.querySelector('[ng-if*="attemptCanvas.hasQuestions"]');
@@ -408,15 +418,57 @@
       return;
     }
 
-    copyToClipboard(text);
-    webAlert('問題と解答をクリップボードにコピーしました。');
+    const prompt = '\n\n以上の質問に答えてください。各行に記号（正/誤 または A/B/C/D）のみを書いてください。例：\nA\nB\nC\nD';
+    copyToClipboard(text + prompt);
+    webAlert('問題とAI用プロンプトをクリップボードにコピーしました。');
   }
 
-  // ---------- Tampermonkeyメニューの登録 ----------
+  // ---------- ページ内ツールバー ----------
 
-  if (typeof GM_registerMenuCommand === 'function') {
-    GM_registerMenuCommand('正誤/選択問題の一括記入', showDialog);
-    GM_registerMenuCommand('選択済みの解答を一括クリア', clearAllAnswers);
-    GM_registerMenuCommand('問題と解答を抽出してコピー', extractAnswers);
+  function injectToolbar() {
+    const container = document.querySelector('[ng-if*="attemptCanvas.hasQuestions"]');
+    if (!container || document.getElementById('bb-tf-toolbar')) return;
+
+    const bar = document.createElement('div');
+    bar.id = 'bb-tf-toolbar';
+    Object.assign(bar.style, {
+      margin: '8px 0',
+      padding: '8px 12px',
+      background: '#f0f4f8',
+      border: '1px solid #c8d6e5',
+      borderRadius: '6px',
+      display: 'flex',
+      gap: '8px',
+      flexWrap: 'wrap',
+      fontFamily: 'sans-serif',
+    });
+
+    function makeBtn(text, bg, onClick) {
+      const btn = document.createElement('button');
+      btn.textContent = text;
+      Object.assign(btn.style, {
+        padding: '6px 14px',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer',
+        fontSize: '13px',
+        fontWeight: 'bold',
+        background: bg,
+        color: '#fff',
+      });
+      btn.onclick = onClick;
+      return btn;
+    }
+
+    bar.appendChild(makeBtn('解答を記入', '#0d6efd', showDialog));
+    bar.appendChild(makeBtn('選択をクリア', '#dc3545', clearAllAnswers));
+    bar.appendChild(makeBtn('問題と解答をコピー', '#198754', extractAnswers));
+    container.parentNode.insertBefore(bar, container);
   }
+
+  injectToolbar();
+  const observer = new MutationObserver(() => injectToolbar());
+  observer.observe(document.body, { childList: true, subtree: true });
+
+  // ---------- Tampermonkeyメニューは不使用（ページ内ツールバーを使用） ----------
 })();
