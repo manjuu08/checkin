@@ -3,6 +3,7 @@
 // @namespace     http://tampermonkey.net/
 // @version       1.1
 // @description   Tampermonkeyメニューからポップアップを開き、「正/誤」や「A/B/C/D」といった解答リストを一括貼り付けすることで、LMSの正誤問題・選択問題へ自動的にチェックを入れます。選択した解答の全解除や、レビューページからの解答抽出・コピー機能も備えています。
+// @author       manjuu08
 // @match         https://lms2017.teikyo-u.ac.jp/*
 // @grant         GM_registerMenuCommand
 // @grant         GM_setClipboard
