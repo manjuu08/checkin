@@ -4,7 +4,7 @@
 
 🔗 インストール (Installation)
 
-[Greasy Fork からインストールする](https://greasyfork.org/ja/scripts/585187-衛生報告入力自動化ツール)
+[Greasy Fork からインストールする](https://greasyfork.org/ja/scripts/585187)
 1. 機能概要 (Features)
 
     衛生チェックの自動化: チェックボックスを自動的に全選択。
