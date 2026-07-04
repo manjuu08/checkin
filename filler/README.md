@@ -1,6 +1,6 @@
-Blackboard 一括解答入力ツール (Blackboard Bulk Answer Filler)
+LMS 一括解答入力ツール (Blackboard Bulk Answer Filler)
 
-Blackboard（帝京大学LMS）でのテスト・小テストにおける解答入力および管理を効率化するための Tampermonkey スクリプトです。
+帝京大学LMSでのテスト・小テストにおける解答入力および管理を効率化するための Tampermonkey スクリプトです。
 
 🔗 インストール (Installation)
 
