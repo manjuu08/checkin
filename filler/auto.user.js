@@ -6,6 +6,7 @@
 // @match         https://lms2017.teikyo-u.ac.jp/*
 // @grant         GM_registerMenuCommand
 // @grant         GM_setClipboard
+// @license MIT
 // ==/UserScript==
 
 (function () {
