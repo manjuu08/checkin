@@ -7,6 +7,8 @@
 // @match         https://lms2017.teikyo-u.ac.jp/*
 // @grant         GM_registerMenuCommand
 // @grant         GM_setClipboard
+// @homepage    https://github.com/manjuu08/filler
+// @supportURL  https://github.com/manjuu08/filler/issues
 // @license MIT
 // ==/UserScript==
 
