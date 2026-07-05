@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name          LMS 正誤/選択問題一括入力
 // @namespace     http://tampermonkey.net/
-// @version       1.1
+// @version       1.2
 // @description   Tampermonkeyメニューからポップアップを開き、「正/誤」や「A/B/C/D」といった解答リストを一括貼り付けすることで、LMSの正誤問題・選択問題へ自動的にチェックを入れます。選択した解答の全解除や、レビューページからの解答抽出・コピー機能も備えています。
 // @author       manjuu08
 // @match         https://lms2017.teikyo-u.ac.jp/*
@@ -361,11 +361,12 @@
       buttons = document.querySelectorAll('[data-analytics-id*="clear"i]');
     }
 
-    // 3) テキストに「クリア」を含むボタン／リンク
+    // 3) テキストに「クリア」を含むボタン／リンク（スクリプト自身のツールバーは除外）
     if (buttons.length === 0) {
       const candidates = document.querySelectorAll('button, a, [role="button"]');
       buttons = Array.from(candidates).filter(el =>
-        el.textContent.includes('クリア') || el.textContent.includes('選択をクリア')
+        !el.closest('#bb-tf-toolbar') &&
+        (el.textContent.includes('クリア') || el.textContent.includes('選択をクリア'))
       );
     }
 
@@ -386,7 +387,7 @@
     }
 
     buttons.forEach(btn => btn.click());
-    webAlert(`${buttons.length} 個の「選択をクリア」をクリックし、解答をクリアしました。`);
+    webAlert(`${buttons.length} 個選択済みの解答をクリアしました。`);
   }
 
   // ---------- クリップボード補助 ----------
