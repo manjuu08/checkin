@@ -5,6 +5,7 @@
 // @description  衛生報告入力の自動化ツール。確認者IDの自動抽出・選択機能に加え、体温自動入力や個人ID設定により、日々の報告業務を効率化します。
 // @author       manjuu08
 // @match        https://app.hisol-work.net/*
+// @icon  　　　　https://free-icons.net/wp-content/uploads/2020/10/symbol033.png
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_registerMenuCommand
