@@ -421,7 +421,7 @@
 
     const prompt = '\n\n以上の質問に答えてください。各行に記号（正/誤 または A/B/C/D）のみを書いてください。例：\nA\nB\nC\nD';
     copyToClipboard(text + prompt);
-    webAlert('問題とAI用プロンプトをクリップボードにコピーしました。');
+    webAlert('問題とAI用プロンプトをコピーしました。');
   }
 
   // ---------- ページ内ツールバー ----------
