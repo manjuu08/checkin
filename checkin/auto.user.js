@@ -34,10 +34,17 @@
     setInterval(() => {
         const btnContainer = document.querySelector('input[placeholder="出勤者名選択"]')?.parentElement?.parentElement;
         if (btnContainer && !document.getElementById('inject-all-btn')) {
+            const wrapper = document.createElement('div');
+            wrapper.style.cssText = 'position:relative; margin-top:10px; background:#5EA500; border-radius:4px;';
             const btn = document.createElement('button');
             btn.id = 'inject-all-btn';
             btn.innerText = '✅ 一括全自動入力';
-            btn.style.cssText = 'margin-top:10px; padding:10px 16px; background:#5EA500; color:white; border:none; border-radius:4px; cursor:pointer; width:100%; font-weight:bold;';
+            btn.style.cssText = 'padding:10px 16px; background:transparent; color:white; border:none; border-radius:4px; cursor:pointer; width:100%; font-weight:bold;';
+            const credit = document.createElement('span');
+            credit.innerText = '作成：ショウ';
+            credit.style.cssText = 'position:absolute; bottom:3px; right:6px; font-size:10px; color:rgba(255,255,255,0.7);';
+            wrapper.appendChild(btn);
+            wrapper.appendChild(credit);
             btn.onclick = async () => {
                 // 1. 勾选
                 document.querySelectorAll('img').forEach(img => {
@@ -60,7 +67,7 @@
                 // 4. 確認者は自動スキャン→ポップアップで手動選択
                 autoScanAndShowPopup();
             };
-            btnContainer.appendChild(btn);
+            btnContainer.appendChild(wrapper);
         }
     }, 1000);
 
