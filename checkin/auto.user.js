@@ -41,7 +41,7 @@
             btn.innerText = '✅ 一括全自動入力';
             btn.style.cssText = 'padding:10px 16px; background:transparent; color:white; border:none; border-radius:4px; cursor:pointer; width:100%; font-weight:bold;';
             const credit = document.createElement('span');
-            credit.innerText = '作成：ショウ';
+            credit.innerText = '自動化スクリプト by ショウ';
             credit.style.cssText = 'position:absolute; bottom:3px; right:6px; font-size:10px; color:rgba(255,255,255,0.7);';
             wrapper.appendChild(btn);
             wrapper.appendChild(credit);
